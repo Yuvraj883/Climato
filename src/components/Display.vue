@@ -1,4 +1,4 @@
-<template>
+    <template>
   <div class="container">
     <input placeholder="Search a city" v-model="city" />
     <button  @click="apiCall">Search</button>
@@ -45,7 +45,7 @@ export default{
             console.log("Api Call initiated ", this.city);
             /*const data1 = await fetch("https://api.openweathermap.org/data/2.5/find?q=delhi&units=metric&appid=b99b652d448e47e5a48a226c5ed84910"); 
             const data2 = await data1.json(); */
-            fetch("https://api.openweathermap.org/data/2.5/find?q=delhi&units=metric&appid=b99b652d448e47e5a48a226c5ed84910")
+            fetch("https://api.openweathermap.org/data/2.5/find?q="+this.city+"&units=metric&appid=b99b652d448e47e5a48a226c5ed84910")
             .then((value) => {return value.json()})
             .then((value) => {this.weather = value; this.isSet = true; })
             //this.isSet = true; 
