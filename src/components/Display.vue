@@ -1,6 +1,6 @@
     <template>
   <div class="container">
-    <input placeholder="Search a city" v-model="city" />
+    <input @keyup.enter="apiCall" placeholder="Search a city" v-model="city" />
     <button  @click="apiCall">Search</button>
 
       <h2>{{city}}</h2>
