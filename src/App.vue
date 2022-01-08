@@ -1,15 +1,18 @@
 <template>
+<Navbar/>
   <Display />
   
 </template>
 
 <script>
 import Display from './components/Display.vue'
+import Navbar from './components/Navbar.vue'
 
 export default {
   name: 'App',
   components: {
-    Display
+    Display,
+    Navbar
   }
 }
 </script>

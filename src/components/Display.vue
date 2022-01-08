@@ -1,19 +1,29 @@
 <template>
   <div class="container">
-    <input  @keyup.enter="apiCall" placeholder="Search a city" v-model="city" />
+    <input placeholder="Search a city" v-model="city" />
     <button  @click="apiCall">Search</button>
 
-    <div class="display" v-if = "typeof weather.main != 'undefined' ">
-      <h2>{{weather.name}}</h2>
-      <p>Temperature:{{weather.main.temp}}</p>
-      <p>Humidity: {{weather.main.humidity}}</p>
-      <p>Wind Speed:{{weather.wind.speed}}</p>
-      <p>Description:{{weather.description}}</p>
-    </div>
+      <h2>{{city}}</h2>
+      
+      <div style="display:none;" id="infoDiv">
+      <p>Temperature:{{isSet?weather.list[0].main.temp:"No temp"}}</p>
+      <p>Humidity: {{isSet?weather.list[0].main.humidity:"No humidity"}}</p>
+      <p>Wind Speed:{{isSet?weather.list[0].wind.speed:"No Speed"}}</p>
+      </div>
+      
+
+      
+
+    <!--<div class="display" v-if = "typeof isSet != false ">-->
+
+      
+
+    <!--</div>-->
+
   </div>
 </template>
 <script>
-    import axios from 'axios'
+  //  import axios from 'axios'
 
 export default{
     name: 'Display',
@@ -22,7 +32,8 @@ export default{
         city:null,
         apikey:"b99b652d448e47e5a48a226c5ed84910",
         url:null,
-        weather:{}
+        weather:{}, 
+        isSet: false
         }
     },
     methods:{
@@ -32,19 +43,36 @@ export default{
         },
         apiCall(){
             console.log("Api Call initiated ", this.city);
+            /*const data1 = await fetch("https://api.openweathermap.org/data/2.5/find?q=delhi&units=metric&appid=b99b652d448e47e5a48a226c5ed84910"); 
+            const data2 = await data1.json(); */
+            fetch("https://api.openweathermap.org/data/2.5/find?q=delhi&units=metric&appid=b99b652d448e47e5a48a226c5ed84910")
+            .then((value) => {return value.json()})
+            .then((value) => {this.weather = value; this.isSet = true; })
+            //this.isSet = true; 
+            document.getElementById('infoDiv').style.display = "block"; 
+            //this.weather = data2; 
+            //console.log(data2);
             
-    axios.get("https://api.openweathermap.org/data/2.5/find?q=" +this.city+ "&units=metric&appid=b99b652d448e47e5a48a226c5ed84910")
-    .then(res=>{
-        return res.json;
-    })
-    .then(this.setResult)
-    .catch(error=>{
-        console.log("error:" ,error)
-    });
-        },
-        setResult(result){
-            this.weather= result;
-        }
+            
+          /* fetch ("https://api.openweathermap.org/data/2.5/find?q=delhi&units=metric&appid=b99b652d448e47e5a48a226c5ed84910")
+ .then(function responseHandler(response){return response.json()})
+ .then (function logJson(json){document.getElementById("temp").innerText=json.list["main"].temp})
+ .catch(error=>console.log("Error", error))*/
+
+
+    // axios.get("https://api.openweathermap.org/data/2.5/find?q=" +this.city+ "&units=metric&appid=b99b652d448e47e5a48a226c5ed84910")
+    // .then(res=>{
+    //     return res.json;
+    // })
+    // .then(json=>this.weather=json)
+    // .catch(error=>{
+    //     console.log("error:" ,error)
+    // });
+    //     },
+    //     setResult(result){
+    //         this.weather= result;
+    //         console.log(this.weather)
+      }
     },
 
     props:{
@@ -76,5 +104,6 @@ input {
   text-align: left;
   margin-left: 15%;
 }
+
 </style>
 
