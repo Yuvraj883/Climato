@@ -1,7 +1,8 @@
 <template>
+<div :style="{backgroundImage:'url(image)'}">
 <Navbar/>
-  <Display />
-  
+  <Display @setImage="setImage" />
+  </div>
 </template>
 
 <script>
@@ -13,6 +14,17 @@ export default {
   components: {
     Display,
     Navbar
+  },
+  data(){
+    return {
+    image:"https://source.unsplash.com/1600x900/? "
+
+    }
+  },
+  methods:{
+setImage(city){
+  this.image = this.image+city
+}
   }
 }
 </script>
@@ -26,4 +38,11 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+</style>
+<style scoped>
+div{
+background-image:url("https://source.unsplash.com/1600x900/? city");
+
+}
+
 </style>
