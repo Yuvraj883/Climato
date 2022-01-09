@@ -3,12 +3,17 @@
     <input @keyup.enter="apiCall" placeholder="Search a city" v-model="city" />
     <button  @click="apiCall">Search</button>
 
-      <h2>{{city}}</h2>
+      <div><h2>{{isSet?weather.list[0].name+", ":""}}{{isSet?weather.list[0].sys.country:""}} </h2> </div>
       
       <div style="display:none;" id="infoDiv">
-      <p>Temperature:{{isSet?weather.list[0].main.temp:"No temp"}}</p>
-      <p>Humidity: {{isSet?weather.list[0].main.humidity:"No humidity"}}</p>
-      <p>Wind Speed:{{isSet?weather.list[0].wind.speed:"No Speed"}}</p>
+      <p>Temperature:{{isSet?Math.round(weather.list[0].main.temp)+"°C":"No temp"}}</p>
+      <div v-show="icon.active">
+      <img src={{icon.link}}>
+
+      </div>
+      <p>Humidity: {{isSet?weather.list[0].main.humidity+"%":"No humidity"}}</p>
+      <p>Wind Speed:{{isSet?weather.list[0].wind.speed+"Km/h":"No Speed"}}</p>
+      <p>Description: {{isSet?weather.list[0].weather[0].main:""}}</p>
       </div>
       
 
@@ -23,19 +28,32 @@
   </div>
 </template>
 <script>
-  //  import axios from 'axios'
+  //import axios from 'axios'
 
 export default{
     name: 'Display',
     data(){
         return{
-        city:null,
+        city:'Delhi',
         apikey:"b99b652d448e47e5a48a226c5ed84910",
         url:null,
         weather:{}, 
-        isSet: false
+        isSet: false,
+        icon:{
+            active:false,
+            link:"/"
+        }
         }
     },
+    created(){
+        
+    //     axios.get("https://api.openweathermap.org/data/2.5/find?q="+this.city+"&units=metric&appid=b99b652d448e47e5a48a226c5ed84910")
+    //     .then((value) => {return value.json()})
+    //         .then((value) => {this.weather = value; this.isSet = true; })
+    //         .catch(error=>console.log(error));
+
+    //          document.getElementById('infoDiv').style.display = "block";
+     },
     methods:{
         urlConstructor(){
             
@@ -50,6 +68,8 @@ export default{
             .then((value) => {this.weather = value; this.isSet = true; })
             //this.isSet = true; 
             document.getElementById('infoDiv').style.display = "block"; 
+            this.icon.link= "https://openweathermap.org/img/wn/"+this.weather.list[0].weather[0].icon +".png";
+            this.icon.active=true;
             //this.weather = data2; 
             //console.log(data2);
             
@@ -74,6 +94,7 @@ export default{
     //         console.log(this.weather)
       }
     },
+  
 
     props:{
         msg:{
