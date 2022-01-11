@@ -56,7 +56,7 @@ export default {
       showTime: true,
       time: "",
       date: "Date will be displayed here",
-      city: "New Delhi",
+      city:"",
       apikey: "b99b652d448e47e5a48a226c5ed84910",
       url: null,
       weather: {},
