@@ -3,6 +3,7 @@
     <input @keyup.enter="apiCall" placeholder="Search a city" v-model="city" />
     <button @click="apiCall"><i class="fa fa-search"></i></button>
 
+  
     <div>
       <h2>
         {{ isSet ? weather.list[0].name + ", " : ""
@@ -31,11 +32,19 @@
         }}
       </p>
     </div>
+    <div :v-if="showTime" class="dt">
+      <h3>{{ printTime }}</h3>
+      <p>{{ printDate }}</p>
+    </div>
 
     <!--<div class="display" v-if = "typeof isSet != false ">-->
 
     <!--</div>-->
   </div>
+  
+  <footer>
+      <p>Copyright&#169; 2022  </p>
+  </footer>
 </template>
     <script>
 //import axios from 'axios'
@@ -44,7 +53,10 @@ export default {
   name: "Display",
   data() {
     return {
-      city: null,
+      showTime: true,
+      time: "",
+      date: "Date will be displayed here",
+      city: "New Delhi",
       apikey: "b99b652d448e47e5a48a226c5ed84910",
       url: null,
       weather: {},
@@ -52,13 +64,16 @@ export default {
       icon: "/",
     };
   },
-  created() {
-    //     axios.get("https://api.openweathermap.org/data/2.5/find?q="+this.city+"&units=metric&appid=b99b652d448e47e5a48a226c5ed84910")
-    //     .then((value) => {return value.json()})
-    //         .then((value) => {this.weather = value; this.isSet = true; })
-    //         .catch(error=>console.log(error));
-    //          document.getElementById('infoDiv').style.display = "block";
+
+  computed: {
+    printDate() {
+      return new Date().toLocaleDateString();
+    },
+    printTime() {
+      return new Date().toLocaleTimeString();
+    },
   },
+
   methods: {
     getImgURL() {
       return this.icon;
@@ -70,10 +85,13 @@ export default {
         "&appid=" +
         this.apikey);
     },
+
     apiCall() {
       if (this.city === null) {
         alert("Enter a city name");
       } else {
+        this.showTime = false;
+
         // console.log("Api Call initiated ", this.city);
         /*const data1 = await fetch("https://api.openweathermap.org/data/2.5/find?q=delhi&units=metric&appid=b99b652d448e47e5a48a226c5ed84910"); 
                 const data2 = await data1.json(); */
@@ -93,7 +111,7 @@ export default {
         document.getElementById("infoDiv").style.display = "block";
         this.icon =
           "https://openweathermap.org/img/wn/" +
-          this.weather.list[0].weather[0].icon +
+          this.weather.Weather[0].icon +
           ".png";
         this.icon = true;
         //this.weather = data2;
@@ -120,12 +138,24 @@ export default {
       }
     },
   },
-
+  created() {
+    //     axios.get("https://api.openweathermap.org/data/2.5/find?q="+this.city+"&units=metric&appid=b99b652d448e47e5a48a226c5ed84910")
+    //     .then((value) => {return value.json()})
+    //         .then((value) => {this.weather = value; this.isSet = true; })
+    //         .catch(error=>console.log(error));
+    //          document.getElementById('infoDiv').style.display = "block";
+    //  this.apiCall();
+    //this.city='Mumbai';
+  },
   props: {
     msg: {
       type: String,
       default: "Passed a prop",
     },
+  },
+  mounted: function () {
+    this.date = this.printDate();
+    this.time = this.printTime();
   },
 };
 </script>
@@ -145,6 +175,23 @@ input {
   height: 5vh;
   width: 70%;
 }
+.dt {
+  /* position: fixed;
+  right:0px bottom 0px;
+  padding-left:5rem;
+  padding-bottom: 2rem;
+  display: block;
+  margin:1rem;
+ */
+ margin:auto;
+}
+
+.dt h3 {
+  margin: 0px;
+}
+.dt p {
+  margin: 0px;
+}
 .display {
   margin-top: 2rem;
   text-align: left;
@@ -156,6 +203,13 @@ input {
   font-weight: 900;
   padding-bottom: none;
   margin: 0;
+}
+footer{
+    background: black;
+    color:red;
+    position : absolute;
+    bottom:0;
+    width:100%;
 }
 </style>
     <style scoped >
