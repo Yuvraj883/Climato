@@ -16,7 +16,7 @@
         {{ isSet ? Math.round(weather.list[0].main.temp) + "°C" : "No temp" }}
       </p>
 
-      <img :src="getImgURL()" alt="Icon could not be loaded" />
+     <img :src="getImgURL()" alt="Icon could not be loaded" />
 
       <p>
         <b>{{ isSet ? weather.list[0].weather[0].main : "" }}</b>
@@ -32,7 +32,7 @@
         }}
       </p>
     </div>
-    <div :v-if="showTime" class="dt">
+    <div v-if= "showTime" class="dt">
       <h3>{{ printTime }}</h3>
       <p>{{ printDate }}</p>
     </div>
@@ -56,7 +56,7 @@ export default {
       showTime: true,
       time: "",
       date: "Date will be displayed here",
-      city:"",
+      city:"Search a city",
       apikey: "b99b652d448e47e5a48a226c5ed84910",
       url: null,
       weather: {},
@@ -87,12 +87,12 @@ export default {
     },
 
     apiCall() {
-      if (this.city === null) {
+      if (this.city === "" || this.city===null || this.city===undefined|| this.city.length<=0||typeof this.city==="undefined") {
         alert("Enter a city name");
       } else {
         this.showTime = false;
 
-        // console.log("Api Call initiated ", this.city);
+    //    console.log("Api Call initiated ", this.city);
         /*const data1 = await fetch("https://api.openweathermap.org/data/2.5/find?q=delhi&units=metric&appid=b99b652d448e47e5a48a226c5ed84910"); 
                 const data2 = await data1.json(); */
         fetch(
@@ -107,11 +107,11 @@ export default {
             this.weather = value;
             this.isSet = true;
           });
-        //this.isSet = true;
-        document.getElementById("infoDiv").style.display = "block";
+        this.isSet = true;
+       document.getElementById("infoDiv").style.display = "block";
         this.icon =
           "https://openweathermap.org/img/wn/" +
-          this.weather.Weather[0].icon +
+          this.weather.list[0].Weather[0].icon +
           ".png";
         this.icon = true;
         //this.weather = data2;
@@ -144,19 +144,20 @@ export default {
     //         .then((value) => {this.weather = value; this.isSet = true; })
     //         .catch(error=>console.log(error));
     //          document.getElementById('infoDiv').style.display = "block";
-    //  this.apiCall();
-    //this.city='Mumbai';
+   //  this.apiCall();
+   // this.city='Mumbai';
   },
+
   props: {
     msg: {
       type: String,
       default: "Passed a prop",
     },
-  },
-  mounted: function () {
-    this.date = this.printDate();
-    this.time = this.printTime();
-  },
+  }
+  // mounted: function () {
+  
+  //   this.apiCall();
+  // },
 };
 </script>
     <style scoped>
