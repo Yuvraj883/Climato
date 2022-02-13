@@ -110,9 +110,9 @@ export default {
         this.isSet = true;
        document.getElementById("infoDiv").style.display = "block";
         this.icon =
-          "https://openweathermap.org/img/wn/" +
+         require("https://openweathermap.org/img/wn/" +
           this.weather.list[0].Weather[0].icon +
-          ".png";
+          ".png");
         this.icon = true;
         //this.weather = data2;
         //console.log(data2);
